@@ -10,6 +10,7 @@
     ./modesetting.nix
     ./poe-hat.nix
     ./poe-plus-hat.nix
+    ./ov5647.nix
     ./tc358743.nix
     ./touch-ft5406.nix
     ./pwm0.nix
