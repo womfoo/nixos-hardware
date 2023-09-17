@@ -1,7 +1,7 @@
 { config, lib, ... }:
 
 let
-  cfg = config.hardware.raspberry-pi."4".ovh5647;
+  cfg = config.hardware.raspberry-pi."4".ov5647;
 in {
   options.hardware = {
     raspberry-pi."4".ov5647 = {
