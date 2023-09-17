@@ -18,6 +18,37 @@ in {
 
     hardware.deviceTree = {
       overlays = [
+        # dunno if this will work
+        # Equivalent to: https://github.com/raspberrypi/linux/blob/rpi-6.1.y/arch/arm/boot/dts/overlays/ov5647.dtsi
+        {
+          name = "ov5647.dtsi";
+          dtsText = ''
+            cam_node: ov5647@36 {
+            	compatible = "ovti,ov5647";
+            	reg = <0x36>;
+            	status = "disabled";
+
+            	clocks = <&cam1_clk>;
+
+            	avdd-supply = <&cam1_reg>;
+            	dovdd-supply = <&cam_dummy_reg>;
+            	dvdd-supply = <&cam_dummy_reg>;
+
+            	rotation = <0>;
+            	orientation = <2>;
+
+            	port {
+            		cam_endpoint: endpoint {
+            			clock-lanes = <0>;
+            			data-lanes = <1 2>;
+            			clock-noncontinuous;
+            			link-frequencies =
+            				/bits/ 64 <297000000>;
+            		};
+            	};
+            };
+          '';
+        }
         # bcm2835 -> bcm2711
         # Equivalent to: https://github.com/raspberrypi/linux/blob/rpi-6.1.y/arch/arm/boot/dts/overlays/ov5647-overlay.dts
         {
@@ -114,37 +145,6 @@ in {
 
             &cam_endpoint {
             	remote-endpoint = <&csi_ep>;
-            };
-          '';
-        }
-        # dunno if this will work
-        # Equivalent to: https://github.com/raspberrypi/linux/blob/rpi-6.1.y/arch/arm/boot/dts/overlays/ov5647.dtsi
-        {
-          name = "ov5647.dtsi";
-          dtsText = ''
-            cam_node: ov5647@36 {
-            	compatible = "ovti,ov5647";
-            	reg = <0x36>;
-            	status = "disabled";
-
-            	clocks = <&cam1_clk>;
-
-            	avdd-supply = <&cam1_reg>;
-            	dovdd-supply = <&cam_dummy_reg>;
-            	dvdd-supply = <&cam_dummy_reg>;
-
-            	rotation = <0>;
-            	orientation = <2>;
-
-            	port {
-            		cam_endpoint: endpoint {
-            			clock-lanes = <0>;
-            			data-lanes = <1 2>;
-            			clock-noncontinuous;
-            			link-frequencies =
-            				/bits/ 64 <297000000>;
-            		};
-            	};
             };
           '';
         }
